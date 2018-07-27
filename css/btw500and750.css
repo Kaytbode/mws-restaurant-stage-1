@@ -1,0 +1,16 @@
+
+.select-div{
+
+    width: 100%;
+}
+
+#restaurants-list{
+
+    padding: 2em;
+    grid-template-columns: 100%;
+}
+
+#footer{
+
+    font-size: 10pt;
+}

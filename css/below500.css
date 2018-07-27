@@ -1,0 +1,45 @@
+
+nav h1 a {
+
+    font-size: 12pt;
+    letter-spacing: 5px;
+}
+
+
+.select-div{
+
+    width: 100%;
+}
+
+
+.filter-options h2{
+
+    font-size: 1.2rem;
+}
+
+
+#neighborhoods-select,
+#cuisines-select{
+
+    font-size: 1rem;
+}
+
+
+#restaurants-list{
+
+    padding: 2em 1em;
+    grid-template-columns: 100%; 
+}
+
+
+figure{
+
+    margin: 0;
+}
+
+
+#footer{
+
+    font-size: 8pt;
+    padding: 25px;
+}

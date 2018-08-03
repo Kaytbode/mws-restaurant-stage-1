@@ -1,0 +1,126 @@
+/*============= elements ==============*/
+figure {
+  margin: 2em;
+}
+
+footer { 
+  font-size: 12pt;
+  padding: 30px;
+  
+}
+/* ====================== Navigation ====================== */
+
+nav h1 a { 
+  font-size: 14pt;
+  letter-spacing: 10px;
+}
+
+#breadcrumb li {   
+  font-size: 16pt;
+}
+
+/* ====================== Restaurant Filtering ====================== */
+.select-div{
+  width: 600px;
+}
+
+.filter-options h2 { 
+  font-size: 1.5rem;
+}
+
+#neighborhoods-select,
+#cuisines-select {
+  font-size: 1.3rem;
+}
+
+/* ====================== Restaurant Listing ====================== */
+#restaurants-list { 
+  grid-template-columns: 50% 50%;
+  padding: 3em;
+  max-width: 1000px;
+}
+
+#restaurants-list li h1 {  
+  font-size: 1.4rem;
+}
+
+#restaurants-list p {  
+  font-size: 1.2rem;
+}
+
+#restaurants-list li a {  
+  font-size: 1.2rem;
+}
+
+/* ====================== Restaurant Details ====================== */
+
+/* ====== Main ============= */
+.inside #maincontent {
+  grid-template-rows: 500px 100% 100%;
+}
+
+#restaurant-container {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 55% 45%;
+  grid-template-areas: 
+      "name     name"
+      "figure   tableau";
+}
+
+#restaurant-name {
+  grid-area: name;
+  text-align: center;
+  font-size: 20pt;
+  font-weight: 200;
+  letter-spacing: 2px;
+  margin: 20px 0 0;
+}
+
+#restaurant-container figure {
+  grid-area: figure;
+  margin-left: 0;
+}
+
+#restaurant-address {
+  font-size: 14pt;
+  text-align: center;
+}
+
+#restaurant-hours {
+  grid-area: tableau;
+  margin: 8em 0 0 0;
+}
+
+table {
+  border-spacing: 0;
+}
+
+#restaurant-hours td {
+  text-align: left;
+  font-weight: 600;
+}
+
+hr {
+  width: 90%;
+}
+
+#reviews-container {
+  max-width: 1000px;
+}
+
+#reviews-list {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 20px 5px;
+  margin: 0 1em;
+}
+
+.rating {
+  font-size: 12pt;
+}
+
+.comment {
+  font-size: 16px;
+}

@@ -1,16 +1,83 @@
 
-.select-div{
+/*============== elements ===========*/
+figure {
+    margin: 2em;
+}
 
+footer {
+    font-size: 10pt;
+    padding: 25px;
+}
+
+/* ====================== Navigation ====================== */
+nav h1 a {
+    font-size: 14pt;
+    letter-spacing: 10px;
+}
+
+/* Display list items side by side */
+#breadcrumb li {
+    font-size: 14pt;
+}
+
+/* ====================== Restaurant Filtering ====================== */
+.select-div {
     width: 100%;
 }
 
-#restaurants-list{
-
-    padding: 2em;
-    grid-template-columns: 100%;
+.filter-options h2 {
+    font-size: 1.5rem;
 }
 
-#footer{
+#neighborhoods-select,
+#cuisines-select {
+    font-size: 1.3rem;
+}
 
-    font-size: 10pt;
+/* ====================== Restaurant Listing ====================== */
+#restaurants-list {
+    padding: 2em;
+}
+
+#restaurants-list li h1 {
+    font-size: 1.4rem;
+}
+
+#restaurants-list p {
+    font-size: 1.2rem;
+}
+
+#restaurants-list li a {
+    font-size: 1.2rem;
+}
+  
+/*===============Restaurant details================*/
+
+/* ====== Main ============= */
+#restaurant-name {
+    font-size: 16pt;
+}
+
+table{
+
+    width: 90%;
+    max-width: 500px;
+    border-spacing: 0;
+}
+
+#restaurant-hours td {
+    font-size: 12pt;
+    text-align: left;
+}
+
+hr {
+    width: 80%;
+}
+
+#reviews-container {
+    max-width: 600px;
+}
+
+.comment {
+    font-size: 12pt;
 }

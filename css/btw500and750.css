@@ -1,7 +1,8 @@
 
 /*============== elements ===========*/
 figure {
-    margin: 2em;
+    margin: auto;
+    max-width: 600px;
 }
 
 footer {
@@ -43,6 +44,9 @@ nav h1 a {
     font-size: 1.4rem;
 }
 
+#restaurants-list li figure{
+    max-width: 600px;
+}
 #restaurants-list p {
     font-size: 1.2rem;
 }

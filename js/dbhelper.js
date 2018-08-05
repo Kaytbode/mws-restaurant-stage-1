@@ -150,7 +150,11 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+      const imagesArr = [`/images/${restaurant.photograph[0]}`, 
+                    `/images/${restaurant.photograph[1]} 2x`,
+                   `/images/${restaurant.photograph[2]} 1x, /images/${restaurant.photograph[3]} 2x`
+                  ];
+      return imagesArr;
   }
 
   /**

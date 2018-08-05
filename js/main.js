@@ -160,10 +160,19 @@ createRestaurantHTML = (restaurant) => {
 
   const figure = document.createElement('figure');
 
+  const picture = document.createElement('picture');
+
+  const source = document.createElement('source');
+  source.media = "(min-width: 401px)";
+  source.srcset = DBHelper.imageUrlForRestaurant(restaurant)[2];
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  figure.append(image);
+  image.src = DBHelper.imageUrlForRestaurant(restaurant)[0];
+  image.srcset = DBHelper.imageUrlForRestaurant(restaurant)[1];
+  
+  picture.append(source);
+  picture.append(image);
+  figure.append(picture);
 
   const figCaption = document.createElement('figCaption');
 

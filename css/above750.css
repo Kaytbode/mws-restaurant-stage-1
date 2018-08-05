@@ -34,6 +34,10 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Listing ====================== */
+section:last-child {
+  background-color: tan;
+}
+
 #restaurants-list { 
   grid-template-columns: 50% 50%;
   padding: 3em;
@@ -57,9 +61,11 @@ nav h1 a {
 /* ====== Main ============= */
 .inside #maincontent {
   grid-template-rows: 500px 100% 100%;
+  background-color: tan;
 }
 
 #restaurant-container {
+  background-color: #fff;
   max-width: 1000px;
   margin: auto;
   display: grid;
@@ -103,11 +109,16 @@ table {
 }
 
 hr {
-  width: 90%;
+  width: 0;
 }
 
 #reviews-container {
   max-width: 1000px;
+}
+
+#reviews-container h2 {
+  color: #444;
+  letter-spacing: 5px;
 }
 
 #reviews-list {
@@ -119,6 +130,8 @@ hr {
 
 .rating {
   font-size: 12pt;
+  background-color: #444;
+  color: orange;
 }
 
 .comment {

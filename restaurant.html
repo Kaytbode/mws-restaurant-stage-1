@@ -40,7 +40,12 @@
     <section id="restaurant-container">
       <h1 id="restaurant-name"></h1>
       <figure>
-          <img id="restaurant-img">
+          <picture>
+            <source
+              id= "srcset-above400"
+              media= "(min-width: 401px)">
+            <img id="restaurant-img">
+          </picture>
           <figcaption>
             <p id="restaurant-cuisine"></p>
             <p id="restaurant-address"></p>

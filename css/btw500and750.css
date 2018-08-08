@@ -26,6 +26,10 @@ nav h1 a {
     width: 100%;
 }
 
+label {
+    font-size: 12pt;
+}
+
 .filter-options h2 {
     font-size: 1.5rem;
 }
@@ -40,7 +44,7 @@ nav h1 a {
     padding: 2em;
 }
 
-#restaurants-list li h1 {
+#restaurants-list li h2 {
     font-size: 1.4rem;
 }
 

@@ -165,10 +165,12 @@ createRestaurantHTML = (restaurant) => {
   const source = document.createElement('source');
   source.media = "(min-width: 401px)";
   source.srcset = DBHelper.imageUrlForRestaurant(restaurant)[2];
+
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant)[0];
   image.srcset = DBHelper.imageUrlForRestaurant(restaurant)[1];
+  image.alt = restaurant.name + ' restaurant';
   
   picture.append(source);
   picture.append(image);
@@ -176,8 +178,12 @@ createRestaurantHTML = (restaurant) => {
 
   const figCaption = document.createElement('figCaption');
 
-  const name = document.createElement('h1');
-  name.innerHTML = restaurant.name;
+  const name = document.createElement('h2');
+
+  const more = document.createElement('a');
+  more.innerHTML = restaurant.name;
+  more.href = DBHelper.urlForRestaurant(restaurant);
+  name.append(more);
   figCaption.append(name);
 
   const neighborhood = document.createElement('p');
@@ -188,10 +194,6 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   figCaption.append(address);
 
-  const more = document.createElement('a');
-  more.innerHTML = 'View Details';
-  more.href = DBHelper.urlForRestaurant(restaurant);
-  figCaption.append(more)
 
   figure.append(figCaption);
 
@@ -208,6 +210,12 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
     marker.on("click", onClick);
+    
+    marker.on("keypress", event=>{
+      if(event.originalEvent.key === 'Enter'){
+        window.location.href = marker.options.url;
+      }  
+    });
     function onClick() {
       window.location.href = marker.options.url;
     }

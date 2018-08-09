@@ -134,7 +134,7 @@ nav h1 a {
  /* Display list items side by side */
 #breadcrumb li {
     display: inline;
-    font-size: 12pt;
+    font-size: 11pt;
 }
 
 /* Add a slash symbol (/) before/behind each list item */

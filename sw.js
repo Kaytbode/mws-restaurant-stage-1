@@ -1,4 +1,5 @@
 const staticCacheName = 'restaurants-reviews-v1';
+const contentImgsCache = 'restaurants-contents-imgs';
 
 self.addEventListener('install', event=>{
     event.waitUntil(
@@ -14,8 +15,72 @@ self.addEventListener('install', event=>{
                 '/images',
                 '/js/main.js',
                 '/js/restaurant_info.js',
-                '/js/dbhelper.js'
+                '/js/dbhelper.js',
+                'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
+                'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js'
             ]);
         })
     );
 });
+
+self.addEventListener('fetch', event=>{
+    const requestUrl = new URL(event.request.url);
+    // restaurants images
+    if(requestUrl.pathname.startsWith('/images/')) {
+        event.respondWith(servePhoto(event.request));
+        return;
+    }
+    //map images
+    if(requestUrl.pathname.startsWith('/v4/mapbox.streets/')) {
+        event.respondWith(servePhoto(event.request));
+        return;
+    }
+    //map icon images
+    if(requestUrl.pathname.startsWith('/leaflet@1.3.1/dist/images/')) {
+        event.respondWith(servePhoto(event.request));
+        return;
+    }
+
+    event.respondWith(
+        caches.match(event.request).then(response=>{
+            if(response){
+                return response;
+            }
+            //https://developers.google.com/web/fundamentals/primers/service-workers/
+            const fetchRequest = event.request.clone();
+
+            return fetch(fetchRequest).then(response=>{
+                if(!response || response.status !== 200 || response.type !== 'basic') {
+                    return response;
+                }
+                const responseToCache = response.clone();
+
+                caches.open(staticCacheName)
+                .then(cache=>{
+                    cache.put(event.request, responseToCache);
+                });
+
+                event.respondWith(servePhoto(event.request));
+
+                return response;
+            });
+        })
+    );
+});
+
+
+const servePhoto = request=>{
+    let storageUrl = request.url;
+
+    return caches.open(contentImgsCache).then(cache=>{
+        return cache.match(storageUrl).then(response=>{
+            if(response){
+                return response;
+            }
+            return fetch(request).then(networkResponse=>{
+                cache.put(storageUrl, networkResponse.clone());
+                return networkResponse;
+            });
+        });
+    });    
+};

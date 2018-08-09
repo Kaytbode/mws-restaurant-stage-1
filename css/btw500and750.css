@@ -44,6 +44,10 @@ label {
     padding: 2em;
 }
 
+#restaurants-list li {
+    text-align: center;
+}
+
 #restaurants-list li h2 {
     font-size: 1.4rem;
 }

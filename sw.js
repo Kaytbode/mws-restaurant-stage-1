@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurants-reviews-v3';
+const staticCacheName = 'restaurants-reviews-v1';
 const contentImgsCache = 'restaurants-contents-imgs';
 const allCaches = [
     staticCacheName,
@@ -25,7 +25,7 @@ self.addEventListener('install', event=>{
         })
     );
 });
-
+/*
 self.addEventListener('activate', event=>{
     event.waitUntil(
         caches.keys().then(cacheNames=>{
@@ -38,7 +38,7 @@ self.addEventListener('activate', event=>{
         })
     );
 });
-
+*/
 self.addEventListener('fetch', event=>{
     const requestUrl = new URL(event.request.url);
     // restaurants images

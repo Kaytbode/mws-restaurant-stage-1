@@ -4,12 +4,6 @@ let restaurants,
 var newMap
 var markers = []
 
-// Register a service worker
-navigator.serviceWorker.register('./sw.js').then(reg=>{
-   if(!navigator.serviceWorker.controller){
-     return;
-   }
-})
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */

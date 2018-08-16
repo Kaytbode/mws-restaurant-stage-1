@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurants-reviews-v1';
+const staticCacheName = 'restaurants-reviews-v2';
 const contentImgsCache = 'restaurants-contents-imgs';
 
 self.addEventListener('install', event=>{
@@ -11,11 +11,10 @@ self.addEventListener('install', event=>{
                 '/css/below500.css',
                 '/css/btw500and750.css',
                 '/css/above750.css',
-                '/data/restaurants.json',
-                '/images',
                 '/js/main.js',
                 '/js/restaurant_info.js',
                 '/js/dbhelper.js',
+                '/js/idb.js',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js'
             ]);

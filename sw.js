@@ -58,7 +58,7 @@ self.addEventListener('fetch', event=>{
     }
 
     event.respondWith(
-        caches.match(event.request).then(response=>{
+        caches.match(event.request, {ignoreSearch: true}).then(response=>{
             if(response){
                 return response;
             }
@@ -72,9 +72,7 @@ self.addEventListener('fetch', event=>{
                 const responseToCache = response.clone();
 
                 caches.open(staticCacheName)
-                .then(cache=>{
-                    cache.put(event.request, responseToCache);
-                });
+                .then(cache=> cache.put(event.request, responseToCache));
 
                 event.respondWith(servePhoto(event.request));
 

@@ -4,29 +4,31 @@
 
 ## Project Overview: Stage 1
 
-For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
+## Responsiveness
+The static web page provided was made responsive, through the use of media queries for the layout. Images for various screens
+display were created using grunt.
+## the images directory contains all the images and remember to add .jpg to access through the webpage
 
-### Specification
+##Accessibility
+The webpage maintains a logical tab-order, for easy navigation through the webpage. ARIA attributes were added to improve semantics,
+necessary for screen readers. 
+Parts of the webpage that require interaction with users are focusable. Landmark elements do not have a tabindex attribute, since
+users will not be interacting with them.
+A high color contrast ratio was enforced throughout the webpage.
 
-You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
+##Offline experience
+The webpage is available offline through the use of a service worker and the cache API.
 
-### What do I do from here?
 
-1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer. 
+## Project Overview: Stage 2
 
-In a terminal, check the version of Python you have: `python -V`. If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 8000` (or some other port, if port 8000 is already in use.) For Python 3.x, you can use `python3 -m http.server 8000`. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
+##Application Data and Offline use
+Using the fetch API, data received from the development server was used to render the appropriate sections of the webpage UI. The jSON response was cached using indexDb promised API, for offline use.
 
-2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
-3. Explore the provided code, and start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
-4. Write code to implement the updates to get this site on its way to being a mobile-ready website.
 
-## Leaflet.js and Mapbox:
+##Performance
+To achieve the required ratings from lighthouse, a manifest.json file was added to the webpage. This ensures the app can be added to the homescreen by users.
 
-This repository uses [leafletjs](https://leafletjs.com/) with [Mapbox](https://www.mapbox.com/). You need to replace `<your MAPBOX API KEY HERE>` with a token from [Mapbox](https://www.mapbox.com/). Mapbox is free to use, and does not require any payment information. 
-
-### Note about ES6
-
-Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
 
 
 

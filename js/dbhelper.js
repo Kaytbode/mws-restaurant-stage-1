@@ -52,21 +52,6 @@ class DBHelper {
         });
       })
       .catch(err=> callback(err, null)); 
-     
-    /* let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        console.log(restaurants);
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send(); */
   }
 
   /**
@@ -80,18 +65,6 @@ class DBHelper {
           .then(response=> response.json())
           .then(restaurant=> callback(null, restaurant))
           .catch(err=> callback(error, null));
-      /* DBHelper.fetchRestaurants((error, restaurants) => {
-        if (error) {
-          callback(error, null);
-        } else {
-          const restaurant = restaurants.find(r => r.id == id);
-          if (restaurant) { // Got the restaurant
-            callback(null, restaurant);
-          } else { // Restaurant does not exist in the database
-            callback('Restaurant does not exist', null);
-          }
-        }
-      }); */
     }
     else{
       const dbPromise = DBHelper.initializeDatabase();
@@ -295,16 +268,6 @@ class DBHelper {
       marker.addTo(newMap);
     return marker;
   } 
-  /* static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
-  } */
-
+ 
 }
 

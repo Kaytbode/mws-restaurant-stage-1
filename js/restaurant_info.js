@@ -35,22 +35,6 @@ initMap = () => {
   });
 }  
  
-/* window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
-} */
-
 /**
  * Get current restaurant from page URL.
  */
@@ -93,7 +77,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant)[0];
   image.srcset = DBHelper.imageUrlForRestaurant(restaurant)[1];
-  image.alt = restaurant.name + ' restaurant';
+  image.alt = `${restaurant.name} in ${restaurant.neighborhood}`;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -111,18 +95,18 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
-  for (let key in operatingHours) {
-    const row = document.createElement('tr');
+  for (let key in operatingHours) {  
+    const row = hours.insertRow();
 
-    const day = document.createElement('td');
-    day.innerHTML = key;
-    row.appendChild(day);
+    const day = row.insertCell();
 
-    const time = document.createElement('td');
-    time.innerHTML = operatingHours[key];
-    row.appendChild(time);
+    const text = document.createTextNode(key);
+    day.appendChild(text);
 
-    hours.appendChild(row);
+    const time = row.insertCell();
+
+    const timeText = document.createTextNode(operatingHours[key]);
+    time.appendChild(timeText);
   }
 }
 
@@ -142,9 +126,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     return;
   }
   const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
-  });
+  reviews.forEach(review =>ul.appendChild(createReviewHTML(review)));
   container.appendChild(ul);
 }
 
@@ -171,7 +153,7 @@ createReviewHTML = (review) => {
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
-  comments.setAttribute('class', 'comment');
+  comments.classList.add('comment');
   li.appendChild(comments);
 
   return li;

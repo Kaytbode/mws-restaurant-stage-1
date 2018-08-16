@@ -1,5 +1,9 @@
-const staticCacheName = 'restaurants-reviews-v2';
+const staticCacheName = 'restaurants-reviews-v3';
 const contentImgsCache = 'restaurants-contents-imgs';
+const allCaches = [
+    staticCacheName,
+    contentImgsCache
+];
 
 self.addEventListener('install', event=>{
     event.waitUntil(
@@ -18,6 +22,19 @@ self.addEventListener('install', event=>{
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js'
             ]);
+        })
+    );
+});
+
+self.addEventListener('activate', event=>{
+    event.waitUntil(
+        caches.keys().then(cacheNames=>{
+            return Promise.all(
+                cacheNames.filter(cacheName=>{
+                    return cacheName.startsWith('restaurants-')&&
+                    !allCaches.includes(cacheName);
+                }).map(cacheName=> caches.delete(cacheName))
+            );
         })
     );
 });

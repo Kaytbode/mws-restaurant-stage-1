@@ -1,0 +1,20 @@
+{
+    "short_name": "Reviews",
+    "name": "Restaurant reviews",
+    "icons":[
+        {
+            "src": "/manifestIcons/star(2)-192_small.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/manifestIcons/star(2)-512_medium.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "http://localhost:8000/index.html",
+    "background_color": "#135686",
+    "display": "standalone",
+    "theme_color": "#754C00"
+}

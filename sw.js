@@ -10,7 +10,6 @@ self.addEventListener('install', event=>{
         caches.open(staticCacheName).then(cache=>{
             return cache.addAll([
                 '/',
-                '/index.html',
                 '/restaurant.html',
                 '/css/below500.css',
                 '/css/btw500and750.css',

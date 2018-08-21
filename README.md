@@ -1,4 +1,4 @@
-# Mobile Web Specialist Certification Course - RESTAURANT REVIEWS
+# Mobile Web Specialist Certification Course - Restaurant Reviews
 ---
 ## About Project
 Conversion of a static website to an offline mobile ready responsive web application.

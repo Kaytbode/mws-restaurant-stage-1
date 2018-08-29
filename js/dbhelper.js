@@ -1,14 +1,16 @@
 // Register a service worker
-navigator.serviceWorker.register('./sw.js').then(reg=>{
-  if(!navigator.serviceWorker.controller){
-    return;
-  }
-});
 /**
  * Common database helper functions.
  */
 class DBHelper {
-
+  //Register a service worker
+  static registerSW() {
+      navigator.serviceWorker.register('./sw.js').then(reg=>{
+      if(!navigator.serviceWorker.controller){
+        return;
+      }
+      });
+  }
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.

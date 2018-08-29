@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurants-reviews-v1';
+const staticCacheName = 'restaurants-reviews-v2';
 const contentImgsCache = 'restaurants-contents-imgs';
 const allCaches = [
     staticCacheName,
@@ -24,7 +24,7 @@ self.addEventListener('install', event=>{
         })
     );
 });
-/*
+
 self.addEventListener('activate', event=>{
     event.waitUntil(
         caches.keys().then(cacheNames=>{
@@ -37,25 +37,18 @@ self.addEventListener('activate', event=>{
         })
     );
 });
-*/
+
 self.addEventListener('fetch', event=>{
     const requestUrl = new URL(event.request.url);
-    // restaurants images
-    if(requestUrl.pathname.startsWith('/images/')) {
-        event.respondWith(servePhoto(event.request));
-        return;
-    }
-    //map images
-    if(requestUrl.pathname.startsWith('/v4/mapbox.streets/')) {
-        event.respondWith(servePhoto(event.request));
-        return;
-    }
-    //map icon images
-    if(requestUrl.pathname.startsWith('/leaflet@1.3.1/dist/images/')) {
-        event.respondWith(servePhoto(event.request));
-        return;
-    }
+    // restaurants images or map images or map icons
+    if((requestUrl.pathname.startsWith('/images/'))||
+       (requestUrl.pathname.startsWith('/v4/mapbox.streets/'))||
+       (requestUrl.pathname.startsWith('/leaflet@1.3.1/dist/images/'))){
 
+        event.respondWith(servePhoto(event.request));
+        return;
+    }
+    
     event.respondWith(
         caches.match(event.request, {ignoreSearch: true}).then(response=>{
             if(response){

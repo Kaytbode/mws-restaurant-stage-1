@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurants-reviews-v2';
+const staticCacheName = 'restaurants-reviews-v4';
 const contentImgsCache = 'restaurants-contents-imgs';
 const allCaches = [
     staticCacheName,
@@ -11,6 +11,7 @@ self.addEventListener('install', event=>{
             return cache.addAll([
                 '/',
                 '/restaurant.html',
+                '/page404.html',
                 '/css/below500.css',
                 '/css/btw500and750.css',
                 '/css/above750.css',
@@ -18,6 +19,7 @@ self.addEventListener('install', event=>{
                 '/js/restaurant_info.js',
                 '/js/dbhelper.js',
                 '/js/idb.js',
+                "https://fonts.googleapis.com/css?family=Hind",
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js'
             ]);
@@ -58,9 +60,14 @@ self.addEventListener('fetch', event=>{
             const fetchRequest = event.request.clone();
 
             return fetch(fetchRequest).then(response=>{
+                if(response.status === 404) {
+                    return fetch('/page404.html')
+                }
+
                 if(!response || response.status !== 200 || response.type !== 'basic') {
                     return response;
                 }
+
                 const responseToCache = response.clone();
 
                 caches.open(staticCacheName)

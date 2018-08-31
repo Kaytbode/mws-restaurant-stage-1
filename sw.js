@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurants-reviews-v4';
+const staticCacheName = 'restaurants-reviews-v5';
 const contentImgsCache = 'restaurants-contents-imgs';
 const allCaches = [
     staticCacheName,
@@ -61,7 +61,7 @@ self.addEventListener('fetch', event=>{
 
             return fetch(fetchRequest).then(response=>{
                 if(response.status === 404) {
-                    return fetch('/page404.html')
+                    return caches.match('/page404.html')
                 }
 
                 if(!response || response.status !== 200 || response.type !== 'basic') {

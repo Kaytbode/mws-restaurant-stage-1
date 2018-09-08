@@ -431,6 +431,12 @@ hr {
     line-height: 20px;
 }
 
+.no-reviews {
+    color: red;
+    text-align: center;
+    font-size: 12pt;
+}
+
 /*=========foooter ============*/
 
 .inside footer {

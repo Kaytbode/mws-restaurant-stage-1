@@ -36,7 +36,7 @@ const fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
-    option.innerHTML = neighborhood;
+    option.textContent = neighborhood;
     option.value = neighborhood;
     select.append(option);
   });
@@ -64,7 +64,7 @@ const fillCuisinesHTML = (cuisines = self.cuisines) => {
 
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
-    option.innerHTML = cuisine;
+    option.textContent = cuisine;
     option.value = cuisine;
     select.append(option);
   });
@@ -121,7 +121,7 @@ const resetRestaurants = (restaurants) => {
   // Remove all restaurants
   self.restaurants = [];
   const ul = document.getElementById('restaurants-list');
-  ul.innerHTML = '';
+  ul.textContent = '';
 
   // Remove all map markers
   if (self.markers) {
@@ -171,17 +171,17 @@ const createRestaurantHTML = (restaurant) => {
   const name = document.createElement('h2');
 
   const more = document.createElement('a');
-  more.innerHTML = restaurant.name;
+  more.textContent = restaurant.name;
   more.href = DBHelper.urlForRestaurant(restaurant);
   name.append(more);
   figCaption.append(name);
 
   const neighborhood = document.createElement('p');
-  neighborhood.innerHTML = restaurant.neighborhood;
+  neighborhood.textContent = restaurant.neighborhood;
   figCaption.append(neighborhood);
 
   const address = document.createElement('p');
-  address.innerHTML = restaurant.address;
+  address.textContent = restaurant.address;
   figCaption.append(address);
 
 

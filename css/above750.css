@@ -153,3 +153,42 @@ hr {
 .comment {
   font-size: 16px;
 }
+
+.modal {
+  max-width: 700px;
+}
+
+.modal h3 {
+  font-size: 22px;
+}
+
+.modal div {
+  display: flex;
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+.modal label {
+   font-size: 20px;
+   width: 30%;
+   text-align: left;
+}
+
+.modal textarea {
+  vertical-align: top;
+}
+
+.modal input,
+.modal textarea{
+  width: 60%;
+  font-size: 17px;
+}
+
+.modal-buttons {
+  justify-content: space-evenly;
+}
+
+.modal button {
+  font-size: 20px;
+  padding: 1em;
+}

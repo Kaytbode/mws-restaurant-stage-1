@@ -93,3 +93,25 @@ hr {
 .comment {
     font-size: 12pt;
 }
+
+.modal {
+    max-width: 500px;
+}
+
+.modal h3 {
+    font-size: 20px;
+}
+
+.modal label {
+    font-size: 18px;
+ }
+
+.modal input,
+.modal textarea{
+  font-size: 15px;
+}
+
+.modal button {
+    font-size: 18px;
+    margin: 0 20px;
+}

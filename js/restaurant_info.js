@@ -67,6 +67,9 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.textContent = restaurant.name;
 
+  const restaurantId = document.getElementById('restaurant-id');
+  restaurantId.value = restaurant.id;
+
   const address = document.getElementById('restaurant-address');
   address.textContent = restaurant.address;
 
@@ -115,9 +118,21 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
  */
 const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
+
   const title = document.createElement('h2');
   title.textContent = 'Reviews';
   container.appendChild(title);
+
+  //modal
+  const modal = document.querySelector('.modal');
+  //button to close modal
+  const closeModalBtn = modal.querySelector('.close-modal');
+  //modal button to add reviews
+  const addModal = document.createElement('button');
+  addModal.textContent = 'Add New Review';
+  addModal.classList.add('add-modal');
+  addModal.addEventListener('click', function (){openModal(modal, closeModalBtn)});
+  container.appendChild(addModal);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -184,4 +199,67 @@ const getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+// Launch modal to take in reviews
+let focusedElementBeforeModal;
+
+const modalOverlay = document.querySelector('.overlay');
+
+const closeModal = (modal)=> {
+    //hide the modal and overlay
+    modal.style.display = 'none';
+    modalOverlay.style.display = 'none';
+
+    //set focus back to the element that had it before it was opened
+    focusedElementBeforeModal.focus();
+}
+
+const openModal = (modal, closeBtn)=>{
+    //save current focus
+    focusedElementBeforeModal = document.activeElement;
+    // Listen for and trap the keyboard
+    modal.addEventListener('keydown', trapTabKey);
+    //Listen for indicators to close the modal
+    modalOverlay.addEventListener('click', function(){closeModal(modal)});
+    //close button
+    closeBtn.addEventListener('click', function(){closeModal(modal)});
+    //find focusable elements and convert nodelist to array
+    let focusableElementsString = 'input:not([disable]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]';
+    //remove hidden elements
+    let focusableElements = [...modal.querySelectorAll(focusableElementsString)].filter(el=> !el.hidden);
+    
+    let firstTabStop = focusableElements[0],
+        lastTabStop = focusableElements[focusableElements.length - 1];
+    
+    //show the modal and overlay
+    modal.style.display = 'block';
+    modalOverlay.style.display = 'block';
+
+    //focus first child
+    firstTabStop.focus();
+
+    function trapTabKey(event) {
+        //check for tab key press
+        if(event.key === 'Tab'){
+            //shift + tab
+            if(event.shiftkey){
+                if(document.activeElement === firstTabStop){
+                    event.preventDefault();
+                    lastTabStop.focus();
+                }
+            }
+            //tab
+            else{
+                if(document.activeElement === lastTabStop){
+                    event.preventDefault();
+                    firstTabStop.focus();
+                }
+            }
+        }
+        //escape
+        if(event.key === 'Escape'){
+            closeModal(modal);
+        }
+    }
 }

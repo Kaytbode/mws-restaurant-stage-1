@@ -162,6 +162,10 @@ hr {
   font-size: 22px;
 }
 
+.modal hr {
+  width: 80%;
+}
+
 .modal div {
   display: flex;
   padding-right: 1em;
@@ -186,6 +190,7 @@ hr {
 
 .modal-buttons {
   justify-content: space-evenly;
+  padding-top: 1em;
 }
 
 .modal button {

@@ -263,3 +263,5 @@ const openModal = (modal, closeBtn)=>{
         }
     }
 }
+
+// Take control of form submission

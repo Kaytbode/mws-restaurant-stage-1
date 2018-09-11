@@ -492,16 +492,20 @@ hr {
 }
 
 .modal button {
+    width: 40%;
     padding: 1em;
-    margin: 0 10px;
+    margin: 0 8px;
     font-size: 16px;
     background-color: #754c00;
     color: white;
     border: none;
 }
 
-.modal button:focus {
-    outline: 2px dashed #454545;
+.modal button:focus,
+.modal button:hover,
+.modal button.hover {
+    outline: 2px dashed #754c00;
+    background-color: #262626;
 }
 
 .overlay {

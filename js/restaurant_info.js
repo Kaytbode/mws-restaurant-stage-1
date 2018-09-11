@@ -1,11 +1,22 @@
 let restaurant;
 var newMap;
+const form = document.getElementById('review-form');
+const modal = document.querySelector('.modal');
 
 /**
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
   initMap();
+
+  //Hijack form submission
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+   
+    DBHelper.postReview(form);
+    //close modal after submission
+    closeModal(modal);
+  });
 });
 
 /**
@@ -265,3 +276,38 @@ const openModal = (modal, closeBtn)=>{
 }
 
 // Take control of form submission
+/*
+ https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_forms_through_JavaScript
+*/
+
+/*const postReview = ()=>{ 
+  const formReview = new FormData(form);
+  const info = document.querySelector('.no-reviews');
+
+  // https://youtu.be/1nzCeB9sjWk?list=PLNYkxOF6rcIB1V2i_qfRtDMcY6YZK1lkt
+  /*
+    Content is being served from localhost, we actually do not 
+    need to be online to get content. we only need the
+    server to be up. Hence, no need to check the property navigator.onLine
+  */
+ /*
+  fetch("http://localhost:1337/reviews/",{
+    method: 'POST',
+    body: formReview
+  })
+  .then(response=> {
+    response.json();
+  })
+  .then(()=> {
+    info.style.color = "green";
+    info.textContent = `Review submitted successfully!`;
+  })
+  .catch(()=> {
+    // cannot find server
+    // Network error
+    
+    info.style.color = "red";
+    info.textContent = `Review will be submitted when server comes online`;
+  });
+}
+*/

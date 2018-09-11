@@ -22,10 +22,13 @@ class DBHelper {
 
   //Initialize database to store network responses from server
   static initializeDatabase(){
-    const dbPromise = idb.open('restaurant-reviews', 1, upgradeDb=>{
-
-        upgradeDb.createObjectStore('restaurantsById', {keyPath: 'id'});
-      
+    const dbPromise = idb.open('restaurant-reviews', 2, upgradeDb=>{
+      switch(upgradeDb.oldVersion){
+        case 0:
+          upgradeDb.createObjectStore('restaurantsById', {keyPath: 'id'});
+        case 1:
+          upgradeDb.createObjectStore('reviews', {keyPath: 'restaurant_id'});
+      }    
     });
 
     return dbPromise;
@@ -257,6 +260,55 @@ class DBHelper {
          ]);
   }
 
+  // Post review about restaurants
+  static postReview(form) {
+    const formReview = new FormData(form);
+    const info = document.querySelector('.no-reviews');
+    /*
+      Content is being served from localhost, we actually do not 
+      need to be online to get content. we only need the
+      server to be up. Hence, no need to check the property navigator.onLine
+    */
+    fetch("http://localhost:1337/reviews/",{
+      method: 'POST',
+      body: formReview
+    })
+    .then(response=> {
+      response.json();
+    })
+    .then(()=> {
+      info.style.color = "green";
+      info.textContent = `Review submitted successfully!`;
+    })
+    .catch(()=> {
+      /* 
+         Network error : cannot find server
+         lets put the review in indexDb,
+         to be posted later to the server
+      */
+      const data = {};
+      // Get form review data
+      for(const ppty of formReview.entries()) {
+        data[ppty[0]] = ppty[1];
+      }
+    
+      // store review in indexDb
+      const dbPromise = DBHelper.initializeDatabase();
+
+      dbPromise.then(db=>{
+        if(!db) return;
+
+        const tx = db.transaction('reviews', 'readwrite').objectStore('reviews');
+
+        tx.put(data);
+
+        return tx.complete;
+      });
+
+      info.style.color = "red";
+      info.textContent = `Review will be submitted when server comes online`;
+    });
+  }
   /**
    * Map marker for a restaurant.
    */

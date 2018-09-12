@@ -6,6 +6,7 @@ var markers = []
 
 //Register service worker
 DBHelper.registerSW();
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */

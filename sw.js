@@ -1,11 +1,17 @@
-const staticCacheName = 'restaurants-reviews-v5';
+importScripts('./js/dbhelper.js');
+importScripts('./js/idb.js');
+
+
+const staticCacheName = 'restaurants-reviews-v7';
 const contentImgsCache = 'restaurants-contents-imgs';
 const allCaches = [
     staticCacheName,
     contentImgsCache
 ];
 
-self.addEventListener('install', event=>{
+addEventListener('install', event=>{
+    self.skipWaiting();
+
     event.waitUntil(
         caches.open(staticCacheName).then(cache=>{
             return cache.addAll([
@@ -27,7 +33,7 @@ self.addEventListener('install', event=>{
     );
 });
 
-self.addEventListener('activate', event=>{
+addEventListener('activate', event=>{
     event.waitUntil(
         caches.keys().then(cacheNames=>{
             return Promise.all(
@@ -40,7 +46,7 @@ self.addEventListener('activate', event=>{
     );
 });
 
-self.addEventListener('fetch', event=>{
+addEventListener('fetch', event=>{
     const requestUrl = new URL(event.request.url);
     // restaurants images or map images or map icons
     if((requestUrl.pathname.startsWith('/images/'))||
@@ -81,6 +87,13 @@ self.addEventListener('fetch', event=>{
     );
 });
 
+//Background service worker sync
+addEventListener('sync', event=>{
+    /*if service worker is aware
+     about the pending form submission*/
+    if (event.tag == 'syncForms') event.waitUntil(submitReviewForm());
+
+});
 
 const servePhoto = request=>{
     let storageUrl = request.url;
@@ -97,3 +110,37 @@ const servePhoto = request=>{
         });
     });    
 };
+
+const submitReviewForm = ()=> {
+  const dbPromise = DBHelper.initializeDatabase();
+
+  dbPromise.then(db=>{
+    const tx = db.transaction('reviews', 'readwrite');
+    const store = tx.objectStore('reviews');
+
+    return store.openCursor(null, 'prev');
+    }).then(cursor=>{
+        if(!cursor) return;
+        return cursor;
+    }).then(function postReview(cursor){
+        const formReview = JSON.stringify(cursor.value);
+        /*
+         Go through the database and post to the server
+         all that's in there
+        */
+        fetch("http://localhost:1337/reviews/",{
+          method: 'POST',
+          body: formReview
+         })
+         .then(()=> console.log('done'))
+         .catch((err)=> console.log(err))
+
+        /*
+         when done,
+         remove cursor from database
+         */
+        cursor.delete();
+         //move to the next item in the database
+        return cursor.continue().then(postReview);
+    });
+}

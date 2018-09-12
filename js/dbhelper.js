@@ -4,13 +4,33 @@
  */
 class DBHelper {
   //Register a service worker
+  // Service worker background sync
+  //https://developers.google.com/web/updates/2015/12/background-sync
+  //https://jakearchibald.github.io/isserviceworkerready/demos/sync/
   static registerSW() {
       navigator.serviceWorker.register('./sw.js').then(reg=>{
-      if(!navigator.serviceWorker.controller){
-        return;
-      }
+        if(!navigator.serviceWorker.controller)return;
+        console.log('sw registered')
+        return reg.sync.getTags();
+      }).then(tags=>{
+          if(tags.includes('syncForms')) console.log('background sync pending');
+      }).catch(err=>{
+          console.log('sync not supported or flag not enabled');
+          console.log(err.message);
       });
   }
+  // sync service worker
+  static syncSW() {
+    navigator.serviceWorker.ready.then(swRegistration=>{
+      console.log('service worker ready')
+      return swRegistration.sync.register('syncForms');
+     })
+    .then(()=> console.log('syncForms registered'))
+    .catch(()=> {
+      console.log('syncForms failed');
+    })
+  }
+
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
@@ -27,7 +47,7 @@ class DBHelper {
         case 0:
           upgradeDb.createObjectStore('restaurantsById', {keyPath: 'id'});
         case 1:
-          upgradeDb.createObjectStore('reviews', {keyPath: 'restaurant_id'});
+          upgradeDb.createObjectStore('reviews', {keyPath: 'name'});
       }    
     });
 
@@ -259,40 +279,17 @@ class DBHelper {
             `/images/${restaurant.photograph[2]} 1x, /images/${restaurant.photograph[3]} 2x`
          ]);
   }
-
-  // Post review about restaurants
-  static postReview(form) {
-    const formReview = new FormData(form);
+  
+  // we are offline, post review to indexDb
+  static postReviewToIdb(formReview) {
     const info = document.querySelector('.no-reviews');
-    /*
-      Content is being served from localhost, we actually do not 
-      need to be online to get content. we only need the
-      server to be up. Hence, no need to check the property navigator.onLine
-    */
-    fetch("http://localhost:1337/reviews/",{
-      method: 'POST',
-      body: formReview
-    })
-    .then(response=> {
-      response.json();
-    })
-    .then(()=> {
-      info.style.color = "green";
-      info.textContent = `Review submitted successfully!`;
-    })
-    .catch(()=> {
-      /* 
-         Network error : cannot find server
-         lets put the review in indexDb,
-         to be posted later to the server
-      */
-      const data = {};
+    const data = {};
+
       // Get form review data
       for(const ppty of formReview.entries()) {
         data[ppty[0]] = ppty[1];
       }
     
-      // store review in indexDb
       const dbPromise = DBHelper.initializeDatabase();
 
       dbPromise.then(db=>{
@@ -307,6 +304,43 @@ class DBHelper {
 
       info.style.color = "red";
       info.textContent = `Review will be submitted when server comes online`;
+    
+  }
+  // Post review about restaurants
+  static postReview() {
+    const form = document.getElementById('review-form')
+    const formReview = new FormData(form);
+    const info = document.querySelector('.no-reviews');
+    
+    if(!navigator.onLine){
+      /*
+         service worker background sync
+         we only want to notify sw of a sync when we are offline
+         or cannot connect to server
+      */ 
+      DBHelper.syncSW();
+      //post review to idb
+      DBHelper.postReviewToIdb(formReview);
+    }
+    
+    // we are online post to server
+    fetch("http://localhost:1337/reviews/",{
+      method: 'POST',
+      body: formReview
+    })
+    .then(response=> {
+      return response.json();
+    })
+    .then((data)=> {
+      info.style.color = "green";
+      info.textContent = `Review submitted successfully!`;
+    })
+    .catch(()=> {
+       //background service worker sync
+       DBHelper.syncSW();
+       //Network error : cannot find server
+      //lets put the review in indexDb,
+      DBHelper.postReviewToIdb(formReview);
     });
   }
   /**

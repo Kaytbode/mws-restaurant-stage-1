@@ -162,12 +162,19 @@ const createRestaurantHTML = (restaurant) => {
   image.src = DBHelper.imageUrlForRestaurant(restaurant)[0];
   image.srcset = DBHelper.imageUrlForRestaurant(restaurant)[1];
   image.alt = `${restaurant.name} in ${restaurant.neighborhood}`;
-  
+
   picture.append(source);
   picture.append(image);
   figure.append(picture);
 
   const figCaption = document.createElement('figCaption');
+ 
+  const favButton = document.createElement('button');
+  favButton.textContent = '★';
+  favButton.classList.add('fav-Button');
+  favButton.addEventListener('click', function (){DBHelper.favoriteRestaurant(restaurant)});
+  
+  figCaption.append(favButton);
 
   const name = document.createElement('h2');
 

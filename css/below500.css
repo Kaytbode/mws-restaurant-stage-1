@@ -242,6 +242,16 @@ label {
     text-align: left;
 }
 
+.fav-Button {
+    margin: 0;
+    border: none;
+    background-color: inherit;
+    width: 100%;
+    font-size: 30pt;
+    color: #fff;
+    background-color: #000;
+}
+
 #restaurants-list .restaurant-img {
     max-width: 100%;
     margin: 0;
@@ -252,7 +262,7 @@ label {
     font-size: 1.2rem/1.3 Arial,sans-serif;
     font-weight: 200;
     letter-spacing: 0;
-    margin: 20px 0 10px;
+    /* margin: 20px 0 10px; */
     text-transform: uppercase;
 }
 

@@ -360,6 +360,26 @@ class DBHelper {
        info.textContent = 'You are offline'
     });
   }
+
+  /* favorite restaurant */
+  static favoriteRestaurant(restaurant){
+    const data = {};
+    const url = `http://localhost:1337/restaurants/${restaurant.id}/`;
+   
+
+    fetch(url).then(res => {
+      return res.json()
+    })
+    .then(response => {
+      data.is_favorite = !response.is_favorite;
+
+        fetch(url, {
+          method: 'PUT',
+          body: JSON.stringify(data)
+        });
+      
+    }).catch(error => console.error('Error:', error));
+  }
   /**
    * Map marker for a restaurant.
    */

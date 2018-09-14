@@ -121,7 +121,7 @@ const submitReviewForm = ()=> {
     return store.openCursor();
     }).then(cursor=>{
         if(!cursor) return;
-        
+
         return cursor;
     }).then(function postReview(cursor){
         if(!cursor) return;

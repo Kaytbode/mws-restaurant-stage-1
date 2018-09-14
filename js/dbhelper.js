@@ -280,7 +280,14 @@ class DBHelper {
          ]);
   }
   
-  // we are offline, post review to indexDb
+  /* 
+    post review to indexDb
+    Let service worker handle the form posting to server,
+    either while offline or online. Even with a good internet connection, 
+    background sync is worth using cos it protects against navigations
+    and tab closures during data send.
+    https://developers.google.com/web/updates/2015/12/background-sync
+    */
   static postReviewToIdb(formReview) {
     const info = document.querySelector('.no-reviews');
     const data = {};
@@ -292,6 +299,7 @@ class DBHelper {
     
       const dbPromise = DBHelper.initializeDatabase();
 
+      //post to indexdb
       dbPromise.then(db=>{
         if(!db) return;
 
@@ -300,10 +308,11 @@ class DBHelper {
         tx.put(data);
 
         return tx.complete;
-      });
+      }).catch(err=> console.log(err));
 
-      info.style.color = "red";
-      info.textContent = `Review will be submitted when server comes online`;
+      //let the user know review has been posted
+      info.style.color = "green";
+      info.textContent = `Review submitted successfully`;
     
   }
   // Post review about restaurants
@@ -312,18 +321,28 @@ class DBHelper {
     const formReview = new FormData(form);
     const info = document.querySelector('.no-reviews');
     
-    if(!navigator.onLine){
-      /*
-         service worker background sync
-         we only want to notify sw of a sync when we are offline
-         or cannot connect to server
-      */ 
-      DBHelper.syncSW();
-      //post review to idb
-      DBHelper.postReviewToIdb(formReview);
+    // if browser supports background sync and service workers
+    if('serviceWorker' in navigator && 'SyncManager' in window){
+       DBHelper.postReviewToIdb(formReview);
+       /*
+           sync service worker
+           hack to give enough time for reviews to be posted 
+           to database
+        */
+       window.setTimeout(DBHelper.syncSW, 1000);
+      
+       return;
     }
     
-    // we are online post to server
+    /* 
+      browser does not support service worker or background sync
+      post directly from page
+    */
+    if(!navigator.onLine){
+      info.textContent = 'You are offline'
+      return;
+    }
+
     fetch("http://localhost:1337/reviews/",{
       method: 'POST',
       body: formReview
@@ -335,12 +354,10 @@ class DBHelper {
       info.style.color = "green";
       info.textContent = `Review submitted successfully!`;
     })
-    .catch(()=> {
-       //background service worker sync
-       DBHelper.syncSW();
-       //Network error : cannot find server
-      //lets put the review in indexDb,
-      DBHelper.postReviewToIdb(formReview);
+    .catch((err)=> {
+       //user is definitely offline
+       console.log(err);
+       info.textContent = 'You are offline'
     });
   }
   /**

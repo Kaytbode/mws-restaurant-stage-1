@@ -28,7 +28,7 @@ addEventListener('install', event=>{
                 "https://fonts.googleapis.com/css?family=Hind",
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js'
-            ]);
+            ]); 
         })
     );
 });
@@ -118,11 +118,14 @@ const submitReviewForm = ()=> {
     const tx = db.transaction('reviews', 'readwrite');
     const store = tx.objectStore('reviews');
 
-    return store.openCursor(null, 'prev');
+    return store.openCursor();
     }).then(cursor=>{
         if(!cursor) return;
+        
         return cursor;
     }).then(function postReview(cursor){
+        if(!cursor) return;
+
         const formReview = JSON.stringify(cursor.value);
         /*
          Go through the database and post to the server
@@ -132,14 +135,16 @@ const submitReviewForm = ()=> {
           method: 'POST',
           body: formReview
          })
-         .then(()=> console.log('done'))
-         .catch((err)=> console.log(err))
+         .then(()=> {
+             console.log('done');
+         })
+         .catch((err)=> {
+             console.log(err);
+             return;
+         })
 
-        /*
-         when done,
-         remove cursor from database
-         */
-        cursor.delete();
+         //remove cursor from database when done
+         cursor.delete();
          //move to the next item in the database
         return cursor.continue().then(postReview);
     });

@@ -27,6 +27,19 @@ The source of the application data was changed from local storage to a developme
 ### Performance
 To optimize the web application, a _manifest.json file_ was added to the webpage. This ensures the application can be added to the homescreen by users.
 
+## Project Overview: Stage 3
 
+### Toggle favourite restaurant
+Use GET HTTP request to fetch the restaurant from server, and used the PUT request to alter the value. users can see their favourite 
+restaurants with a **golden star** among the pack.
+
+### Add a Form to submit reviews
+A button was added to launch a **modal with form elements** when clicked. The form can be filled offline and submission deferred till 
+connection comes back on. This was achieved through the use of service worker background sync, and indexedDb promised. 
+
+The default behaviour of the form submission is hijacked, and the contents posted to indexDb, while a message is sent to the service worker sync event. The service worker performs a one time sync, and all reviews in database are sent to the server according to the 
+time of entry. The service worker sync event handles all **POST** requests even when online, as this protects against navigation and tab closures during data send. Entries in the database are deleted after they have been posted to the server.
+
+For browsers that do not support service workers or background sync, forms are submitted the default way.
 
 

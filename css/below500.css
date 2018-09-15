@@ -250,6 +250,7 @@ label {
     font-size: 30pt;
     color: #fff;
     background-color: #000;
+    cursor: pointer;
 }
 
 #restaurants-list .restaurant-img {

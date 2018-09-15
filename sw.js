@@ -2,7 +2,7 @@ importScripts('./js/dbhelper.js');
 importScripts('./js/idb.js');
 
 
-const staticCacheName = 'restaurants-reviews-v7';
+const staticCacheName = 'restaurants-reviews-v8';
 const contentImgsCache = 'restaurants-contents-imgs';
 const allCaches = [
     staticCacheName,
@@ -10,8 +10,6 @@ const allCaches = [
 ];
 
 addEventListener('install', event=>{
-    self.skipWaiting();
-
     event.waitUntil(
         caches.open(staticCacheName).then(cache=>{
             return cache.addAll([
@@ -28,7 +26,8 @@ addEventListener('install', event=>{
                 "https://fonts.googleapis.com/css?family=Hind",
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js'
-            ]); 
+
+            ]).then(()=> self.skipWaiting())
         })
     );
 });
@@ -44,6 +43,8 @@ addEventListener('activate', event=>{
             );
         })
     );
+
+    return self.clients.claim();
 });
 
 addEventListener('fetch', event=>{

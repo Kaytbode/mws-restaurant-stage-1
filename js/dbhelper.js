@@ -48,6 +48,8 @@ class DBHelper {
           upgradeDb.createObjectStore('restaurantsById', {keyPath: 'id'});
         case 1:
           upgradeDb.createObjectStore('reviews', {keyPath: 'name'});
+        case 2:
+          upgradeDb.createObjectStore('reviewsById', {keyPath: 'id'});
       }    
     });
 
@@ -89,7 +91,7 @@ class DBHelper {
       fetch(idUrl)
           .then(response=> response.json())
           .then(restaurant=> callback(null, restaurant))
-          .catch(err=> callback(error, null));
+          .catch(error=> callback(error, null));
     }
     else{
       const dbPromise = DBHelper.initializeDatabase();
@@ -339,7 +341,7 @@ class DBHelper {
       post directly from page
     */
     if(!navigator.onLine){
-      info.textContent = 'You are offline'
+      info.textContent = 'You are offline.'
       return;
     }
 
@@ -379,7 +381,7 @@ class DBHelper {
     }).then(isfavorite=> {
       // change button appearance depending on the value of is_favorite
       DBHelper.favoriteButtonAppearance(button, isfavorite);
-      // toggle is_favorite property of server
+      // toggle is_favorite property of restaurant
       return fetch(url, {
           method: 'PUT',
           body: JSON.stringify(isfavorite)

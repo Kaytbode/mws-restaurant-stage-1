@@ -269,7 +269,17 @@ const openModal = (modal, closeBtn)=>{
 
 // Hijack form submission
 form.addEventListener("submit", event =>{
-   event.preventDefault();
+  //to ensure data supplied to form are valid
+  //Not all browsers prevent submission of forms even with invalid data
+  //https://developers.google.com/web/fundamentals/design-and-ux/input/forms/#recommended_input_name_and_autocomplete_attribute_values
+  if (!form.checkValidity()) {
+     event.preventDefault();
+     const showMessage = document.querySelector('.no-reviews');
+     showMessage.textContent = "Form is invalid - submission prevented!";
+     return false;
+  } 
+
+  event.preventDefault();
    //post review 
    DBHelper.postReview();
   //close modal after submission

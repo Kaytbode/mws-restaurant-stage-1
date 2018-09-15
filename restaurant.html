@@ -72,15 +72,15 @@
          </div>
           <div>
               <label for="user-name">Reviewer's Name</label>
-              <input type="text" id="user-name" name="name">
+              <input type="text" id="user-name" name="name" required>
           </div>
           <div>
               <label for="user-rating">Rating</label>
-              <input type="number" name="rating" value="0" min="0" max="5" id="user-rating">
+              <input type="number" name="rating" value="1" min="1" max="5" id="user-rating" required>
           </div>
           <div>
               <label for="user-comment">Comments</label>
-              <textarea id="user-comment" name="comments" rows="5">Add your comments</textarea>
+              <textarea id="user-comment" name="comments" rows="5" required></textarea>
           </div>
           <div class="modal-buttons">
               <button type = "button" class="close-modal">Close</button>

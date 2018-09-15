@@ -360,23 +360,30 @@ class DBHelper {
        info.textContent = 'You are offline'
     });
   }
+  // change the appearance of the button when toggled
+  static favoriteButtonAppearance(button, restaurant){
+    button.style.color = restaurant.is_favorite? '#D68B00' : '#fff';
+  }
 
   /* favorite restaurant */
-  static favoriteRestaurant(restaurant){
+  static favoriteRestaurant(restaurant, button){
     const data = {};
     const url = `http://localhost:1337/restaurants/${restaurant.id}/`;
    
-
     fetch(url).then(res => {
-      return res.json()
+      return res.json();
     })
     .then(response => {
       data.is_favorite = !response.is_favorite;
-
-        fetch(url, {
+      return data;
+    }).then(isfavorite=> {
+      // change button appearance depending on the value of is_favorite
+      DBHelper.favoriteButtonAppearance(button, isfavorite);
+      // toggle is_favorite property of server
+      return fetch(url, {
           method: 'PUT',
-          body: JSON.stringify(data)
-        });
+          body: JSON.stringify(isfavorite)
+      })
       
     }).catch(error => console.error('Error:', error));
   }

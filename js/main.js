@@ -172,10 +172,17 @@ const createRestaurantHTML = (restaurant) => {
   const favButton = document.createElement('button');
   favButton.textContent = '★';
   favButton.classList.add('fav-Button');
-  favButton.addEventListener('click', function (){DBHelper.favoriteRestaurant(restaurant)});
-  
+  favButton.setAttribute('aria-label', 'toggle favorite restaurant');
+  // toggle favorite restaurant
+  favButton.addEventListener('click', function (event){
+    DBHelper.favoriteRestaurant(restaurant, event.target);
+  });
+  //change button appearance if restaurant is favorite
+  DBHelper.favoriteButtonAppearance(favButton, restaurant);
+
   figCaption.append(favButton);
 
+  
   const name = document.createElement('h2');
 
   const more = document.createElement('a');

@@ -48,8 +48,6 @@ class DBHelper {
           upgradeDb.createObjectStore('restaurantsById', {keyPath: 'id'});
         case 1:
           upgradeDb.createObjectStore('reviews', {keyPath: 'name'});
-        case 2:
-          upgradeDb.createObjectStore('reviewsById', {keyPath: 'id'});
       }    
     });
 
